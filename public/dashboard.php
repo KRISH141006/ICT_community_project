@@ -1,4 +1,5 @@
 <?php
+include("../includes/db.php");
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
@@ -11,4 +12,4 @@ if (!isset($_SESSION['user_id'])) {
 <p>User ID: <?php echo $_SESSION['user_id']; ?></p>
 <p>Role: <?php echo $_SESSION['role']; ?></p>
 
-<a href="logout.php">Logout</a>
+<a href="../actions/logout.php">Logout</a>

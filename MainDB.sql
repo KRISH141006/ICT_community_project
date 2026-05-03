@@ -1,4 +1,4 @@
-CREATE DATABASE ICT_Community;
+-- CREATE DATABASE ICT_Community;
 USE ICT_Community;
 
 CREATE TABLE users (

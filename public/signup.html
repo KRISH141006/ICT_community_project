@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Signup</title>
+</head>
+<body>
+
+<h2>Signup</h2>
+
+<form id="signupForm">
+  <input type="email" name="email" placeholder="Email" required><br><br>
+  <input type="text" name="phone" placeholder="Phone" required><br><br>
+  <input type="password" name="password" placeholder="Password" required><br><br>
+
+  <select name="role">
+    <option value="student">Student</option>
+    <option value="faculty">Faculty</option>
+    <option value="alumni">Alumni</option>
+  </select><br><br>
+
+<button type="submit">Send OTP</button>
+
+</form>
+
+<br>
+
+<div id="otpBox" style="display:none;">
+  <input type="text" id="otp" placeholder="Enter OTP"><br><br>
+  <button onclick="verifyOTP()">Verify OTP</button>
+</div>
+
+<script>
+let userData;
+
+document.getElementById("signupForm").onsubmit = async (e) => {
+  e.preventDefault();
+
+  userData = new FormData(e.target);
+
+  let res = await fetch("../actions/send_otp.php", {
+    method: "POST",
+    body: userData
+  });
+
+  let data = await res.json();
+  console.log("Send OTP response:", data);
+
+  if (data.status === "success") {
+    document.getElementById("otpBox").style.display = "block";
+    alert("OTP sent successfully");
+  } else {
+    alert(data.message || "Error sending OTP");
+  }
+};
+
+async function verifyOTP() {
+  let otp = document.getElementById("otp").value;
+
+  userData.append("otp", otp);
+
+  let res = await fetch("../actions/verify_otp.php", {
+    method: "POST",
+    body: userData
+  });
+
+  let data = await res.json();
+  console.log("Verify OTP response:", data);
+
+  if (data.status === "success") {
+    alert("Signup successful");
+    window.location.href = "../public/login.html";
+  } else {
+    alert(data.message || "Invalid OTP");
+  }
+}
+</script>
+
+</body>
+</html>

@@ -11,17 +11,19 @@ document.getElementById("loginForm").onsubmit = async (e) => {
 
   let formData = new FormData(e.target);
 
-  let res = await fetch("login.php", {
+  let res = await fetch("../actions/login.php", {
     method: "POST",
     body: formData
   });
 
-  let data = await res.text();
+  let data = await res.json();  
 
-  if (data === "success") {
+  console.log(data);
+
+  if (data.status === "success") {
     window.location = "dashboard.php";
   } else {
-    alert(data);
+    alert(data.message);
   }
 };
 </script>
